@@ -1,1 +1,11 @@
+# macOS
 .DS_Store
+
+# Local VS Code settings
+/.vscode/
+
+# Python generated files and virtual environments
+__pycache__/
+*.py[cod]
+/.venv/
+/venv/
