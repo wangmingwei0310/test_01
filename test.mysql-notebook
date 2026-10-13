@@ -1,0 +1,589 @@
+{
+    "type": "MySQLNotebook",
+    "version": "1.0",
+    "caption": "DB Notebook",
+    "content": "\\about\n-- 1. 创建数据库\nCREATE DATABASE IF NOT EXISTS ai_chat_app;\n-- 2. 切换到该数据库\nUSE ai_chat_app;\n\n-- 3. 创建用户表 (users)\nCREATE TABLE IF NOT EXISTS users (\n    id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '用户ID',\n    username   VARCHAR(50)  NOT NULL UNIQUE COMMENT '用户名',\n    password   VARCHAR(255) NOT NULL COMMENT '加密密码',\n    created_at DATETIME     DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间'\n) COMMENT '用户表';\n\n-- 4. 创建对话记录表 (conversations)\nCREATE TABLE IF NOT EXISTS conversations (\n    id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT '记录ID',\n    user_id    INT UNSIGNED NOT NULL COMMENT '所属用户ID',\n    role       ENUM('user', 'assistant') NOT NULL COMMENT '角色',\n    content    TEXT         NOT NULL COMMENT '消息内容',\n    created_at DATETIME     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',\n    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE\n) COMMENT '对话记录表';\nUSE ai_chat_app;\n-- 插入一个新用户\nINSERT INTO users (username, password) SELECT 'alice', 'hashed_password_123' WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'alice');\n\n-- 插入一条对话记录\nINSERT INTO conversations (user_id, role, content) SELECT id, 'user', '你好，大模型！' FROM users WHERE username = 'alice';\n USE ai_chat_app;\n -- 查询所有用户\nSELECT * FROM users;\n\n-- 查询特定用户的所有对话，并按时间排序\nSELECT role, content, created_at\nFROM conversations\nWHERE user_id = (SELECT id FROM users WHERE username = 'alice')\nORDER BY created_at ASC;\n\n-- 模糊搜索：查找内容包含“你好”的对话\nSELECT * FROM conversations WHERE content LIKE '%你好%';\n",
+    "options": {
+        "tabSize": 4,
+        "indentSize": 4,
+        "insertSpaces": true,
+        "defaultEOL": "LF",
+        "trimAutoWhitespace": true
+    },
+    "viewState": {
+        "cursorState": [
+            {
+                "inSelectionMode": false,
+                "selectionStart": {
+                    "lineNumber": 42,
+                    "column": 1
+                },
+                "position": {
+                    "lineNumber": 42,
+                    "column": 1
+                }
+            }
+        ],
+        "viewState": {
+            "scrollLeft": 2,
+            "firstPosition": {
+                "lineNumber": 18,
+                "column": 1
+            },
+            "firstPositionDeltaTop": -6
+        },
+        "contributionsState": {
+            "editor.contrib.folding": {},
+            "editor.contrib.wordHighlighter": false
+        }
+    },
+    "contexts": [
+        {
+            "state": {
+                "start": 1,
+                "end": 1,
+                "language": "mysql",
+                "result": {
+                    "type": "text",
+                    "text": [
+                        {
+                            "type": 2,
+                            "content": "Welcome to the MySQL Shell - DB Notebook.\n\nPress Cmd+Enter to execute the code block.\n\nExecute \\sql to switch to SQL, \\js to JavaScript and \\ts to TypeScript mode.\nExecute \\help or \\? for help;",
+                            "language": "ansi"
+                        }
+                    ]
+                },
+                "currentHeight": 28,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 6
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        },
+        {
+            "state": {
+                "start": 2,
+                "end": 23,
+                "language": "mysql",
+                "result": {
+                    "type": "text",
+                    "text": [
+                        {
+                            "type": 2,
+                            "index": 0,
+                            "resultId": "56c5fa81-12d7-472d-c4af-becd6aab2486",
+                            "content": "OK, 1 row affected in 1.211ms"
+                        },
+                        {
+                            "type": 2,
+                            "index": 1,
+                            "resultId": "91845b36-1d18-4fd3-d91c-9ed76962fb1c",
+                            "content": "OK, 0 records retrieved in 0.356ms"
+                        },
+                        {
+                            "type": 2,
+                            "index": 2,
+                            "resultId": "6f55212f-9707-4699-a963-fe2f106d4089",
+                            "content": "OK, 0 records retrieved in 2.372ms"
+                        },
+                        {
+                            "type": 2,
+                            "index": 3,
+                            "resultId": "570f63f8-372a-4a94-ed1c-41ada6b5c143",
+                            "content": "OK, 0 records retrieved in 1.266ms"
+                        }
+                    ]
+                },
+                "currentHeight": 72,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 54
+                        },
+                        "contentStart": 12,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 54,
+                            "length": 31
+                        },
+                        "contentStart": 69,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 85,
+                            "length": 325
+                        },
+                        "contentStart": 107,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 410,
+                            "length": 471
+                        },
+                        "contentStart": 442,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        },
+        {
+            "state": {
+                "start": 24,
+                "end": 29,
+                "language": "mysql",
+                "result": {
+                    "type": "text",
+                    "text": [
+                        {
+                            "type": 2,
+                            "index": 0,
+                            "resultId": "e8de41a4-2651-4054-c3c9-63cc241a0d5f",
+                            "content": "OK, 0 records retrieved in 0.481ms"
+                        },
+                        {
+                            "type": 0,
+                            "index": 1,
+                            "content": "MySQL Error (1062): Duplicate entry 'alice' for key 'users.username'",
+                            "language": "ansi"
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": ""
+                    }
+                },
+                "currentHeight": 40,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 16
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 16,
+                            "length": 153
+                        },
+                        "contentStart": 28,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 169,
+                            "length": 130
+                        },
+                        "contentStart": 183,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        },
+        {
+            "state": {
+                "start": 30,
+                "end": 41,
+                "language": "mysql",
+                "result": {
+                    "type": "resultIds",
+                    "list": [
+                        "18b00ac4-3026-4b54-dc6d-a1d3aa8a0a23",
+                        "3c078570-59dd-480c-d3ea-ff49b4563899",
+                        "8f9acd4f-344a-47ef-fd8a-ad60b22437df",
+                        "5e2f0eab-b750-4b23-ef60-acad30fd083b"
+                    ]
+                },
+                "currentHeight": 113,
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 17
+                        },
+                        "contentStart": 1,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 17,
+                            "length": 32
+                        },
+                        "contentStart": 29,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 49,
+                            "length": 164
+                        },
+                        "contentStart": 73,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 213,
+                            "length": 78
+                        },
+                        "contentStart": 237,
+                        "state": 0
+                    },
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 291,
+                            "length": 0
+                        },
+                        "contentStart": 290,
+                        "state": 3
+                    }
+                ]
+            },
+            "data": [
+                {
+                    "tabId": "b018f117-0f3b-46e4-85bf-437ebe2558b8",
+                    "resultId": "18b00ac4-3026-4b54-dc6d-a1d3aa8a0a23",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": "alice",
+                            "2": "hashed_password_123",
+                            "3": "2026-10-11 20:13:13"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "username",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "password",
+                            "field": "2",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "created_at",
+                            "field": "3",
+                            "dataType": {
+                                "type": 26,
+                                "dateTimePrecision": 8,
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": "CURRENT_TIMESTAMP"
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.354ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 1,
+                    "sql": "\n -- 查询所有用户\nSELECT * FROM users",
+                    "updatable": true,
+                    "fullTableName": "users"
+                },
+                {
+                    "tabId": "b018f117-0f3b-46e4-85bf-437ebe2558b8",
+                    "resultId": "3c078570-59dd-480c-d3ea-ff49b4563899",
+                    "rows": [
+                        {
+                            "0": "user",
+                            "1": "你好，大模型！",
+                            "2": "2026-10-11 20:13:13"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "role",
+                            "field": "0",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "content",
+                            "field": "1",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "created_at",
+                            "field": "2",
+                            "dataType": {
+                                "type": 26,
+                                "dateTimePrecision": 8,
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.531ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 2,
+                    "sql": "\n\n-- 查询特定用户的所有对话，并按时间排序\nSELECT role, content, created_at\nFROM conversations\nWHERE user_id = (SELECT id FROM users WHERE username = 'alice')\nORDER BY created_at ASC",
+                    "updatable": true,
+                    "fullTableName": ""
+                },
+                {
+                    "tabId": "b018f117-0f3b-46e4-85bf-437ebe2558b8",
+                    "resultId": "8f9acd4f-344a-47ef-fd8a-ad60b22437df",
+                    "rows": [
+                        {
+                            "0": 1,
+                            "1": 1,
+                            "2": "user",
+                            "3": "你好，大模型！",
+                            "4": "2026-10-11 20:13:13"
+                        }
+                    ],
+                    "columns": [
+                        {
+                            "title": "id",
+                            "field": "0",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": true,
+                            "nullable": false,
+                            "autoIncrement": true
+                        },
+                        {
+                            "title": "user_id",
+                            "field": "1",
+                            "dataType": {
+                                "type": 4,
+                                "flags": [
+                                    "SIGNED",
+                                    "ZEROFILL"
+                                ],
+                                "numericPrecision": 10,
+                                "parameterFormatType": "OneOrZero",
+                                "synonyms": [
+                                    "INTEGER",
+                                    "INT4"
+                                ]
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "role",
+                            "field": "2",
+                            "dataType": {
+                                "type": 43,
+                                "needsQuotes": true
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "content",
+                            "field": "3",
+                            "dataType": {
+                                "type": 17,
+                                "characterMaximumLength": 65535,
+                                "flags": [
+                                    "BINARY",
+                                    "ASCII",
+                                    "UNICODE"
+                                ],
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        },
+                        {
+                            "title": "created_at",
+                            "field": "4",
+                            "dataType": {
+                                "type": 26,
+                                "dateTimePrecision": 8,
+                                "needsQuotes": true,
+                                "parameterFormatType": "OneOrZero"
+                            },
+                            "inPK": false,
+                            "nullable": true,
+                            "autoIncrement": false,
+                            "default": "CURRENT_TIMESTAMP"
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 1 record retrieved in 0.169ms"
+                    },
+                    "totalRowCount": 1,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 3,
+                    "sql": "\n\n-- 模糊搜索：查找内容包含“你好”的对话\nSELECT * FROM conversations WHERE content LIKE '%你好%'",
+                    "updatable": true,
+                    "fullTableName": "conversations"
+                },
+                {
+                    "tabId": "b018f117-0f3b-46e4-85bf-437ebe2558b8",
+                    "resultId": "5e2f0eab-b750-4b23-ef60-acad30fd083b",
+                    "rows": [],
+                    "columns": [
+                        {
+                            "title": "*",
+                            "field": "0",
+                            "dataType": {
+                                "type": 0
+                            },
+                            "inPK": false,
+                            "nullable": false,
+                            "autoIncrement": false
+                        }
+                    ],
+                    "executionInfo": {
+                        "text": "OK, 0 records retrieved in 0.33ms"
+                    },
+                    "totalRowCount": 0,
+                    "hasMoreRows": false,
+                    "currentPage": 0,
+                    "index": 0,
+                    "sql": " USE ai_chat_app",
+                    "updatable": false
+                }
+            ]
+        },
+        {
+            "state": {
+                "start": 42,
+                "end": 42,
+                "language": "mysql",
+                "currentSet": 1,
+                "statements": [
+                    {
+                        "delimiter": ";",
+                        "span": {
+                            "start": 0,
+                            "length": 0
+                        },
+                        "contentStart": 0,
+                        "state": 0
+                    }
+                ]
+            },
+            "data": []
+        }
+    ]
+}
